@@ -25,8 +25,8 @@ def index(request):
     if kw:
         question_list = question_list.filter(
             Q(subject__icontains=kw)|
-            Q(content__icontains=kw) |
-            Q(author__username__icontains=kw) |
+            Q(content__icontains=kw)|
+            Q(author__username__icontains=kw)|
             Q(answer__author__username__icontains=kw)
         ).distinct()
 
@@ -34,7 +34,7 @@ def index(request):
     paginator = Paginator(question_list, 10)  #페이지당 10개씩 보여 준다.
     page_obj = paginator.get_page(page)
 
-    context = {'question_list': page_obj}
+    context = {'question_list': page_obj, 'page': page, 'kw': kw, 'so': so}
     return render(request, 'pybo/question_list.html', context)
 
 def detail(request, question_id):
